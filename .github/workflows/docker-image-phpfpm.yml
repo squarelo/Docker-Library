@@ -18,8 +18,9 @@ jobs:
         run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
       
       - name: Build the Docker image
-        run: docker build . --file ./web/php-fpm/Dockerfile --tag php-fpm:latest
+        run: docker build . --file ./web/php-fpm/Dockerfile --tag php-fpm:latest # 使用 "latest" 标签或其他自定义标签
 
       - name: Push Docker image
-        run: docker tag php-fpm:latest php-fpm:$(date +%s) # 使用与构建相同的标签
-      - run: docker push php-fpm:$(date +%s)
+        run: |
+          docker tag php-fpm:latest ${{ secrets.DOCKER_USERNAME }}/php-fpm:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/php-fpm:latest
