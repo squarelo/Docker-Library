@@ -27,5 +27,6 @@ jobs:
 
       - name: Tag and Push Docker image with timestamp
         run: |
-          docker tag php-fpm:latest ${{ secrets.DOCKER_USERNAME }}/php-fpm:$(date +%s)
-          docker push ${{ secrets.DOCKER_USERNAME }}/php-fpm:$(date +%s)
+          TIMESTAMP_TAG="${{ secrets.DOCKER_USERNAME }}/php-fpm:$(date +%Y%m%d)"
+          docker tag php-fpm:latest $TIMESTAMP_TAG
+          docker push $TIMESTAMP_TAG
