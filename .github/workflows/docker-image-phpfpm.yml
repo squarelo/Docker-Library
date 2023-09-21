@@ -21,4 +21,5 @@ jobs:
         run: docker build . --file ./web/php-fpm/Dockerfile --tag php-fpm:$(date +%s)
 
       - name: Push Docker image
-        run: docker push php-fpm:$(date +%s)
+        run: docker tag php-fpm:latest php-fpm:$(date +%s) # 使用与构建相同的标签
+      - run: docker push php-fpm:$(date +%s)
