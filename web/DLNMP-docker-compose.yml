@@ -34,9 +34,9 @@ services:
     volumes:
       - ./mysql:/var/lib/mysql
     environment:
-      MYSQL_ROOT_PASSWORD: webroot
-      MYSQL_USER: kejilion
-      MYSQL_PASSWORD: kejilionYYDS
+      MYSQL_ROOT_PASSWORD: squareloPASS
+      MYSQL_USER: squarelo
+      MYSQL_PASSWORD: squareloPASS
 
   redis:
     image: redis
