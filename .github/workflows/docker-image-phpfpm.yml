@@ -20,7 +20,12 @@ jobs:
       - name: Build the Docker image
         run: docker build . --file ./web/php-fpm/Dockerfile --tag php-fpm:latest # 使用 "latest" 标签或其他自定义标签
 
-      - name: Push Docker image
+      - name: Push Docker image （latest)
         run: |
           docker tag php-fpm:latest ${{ secrets.DOCKER_USERNAME }}/php-fpm:latest
           docker push ${{ secrets.DOCKER_USERNAME }}/php-fpm:latest
+
+      - name: Tag and Push Docker image with timestamp
+        run: |
+          docker tag php-fpm:latest ${{ secrets.DOCKER_USERNAME }}/php-fpm:$(date +%s)
+          docker push ${{ secrets.DOCKER_USERNAME }}/php-fpm:$(date +%s)
