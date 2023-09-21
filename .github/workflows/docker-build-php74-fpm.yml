@@ -1,0 +1,31 @@
+name: Build and Push phpfpm Image
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Login to Docker Hub
+        run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+      
+      - name: Build the Docker image
+        run: docker build . --file ./web/php74-fpm/Dockerfile --tag php74-fpm:latest # 使用 "latest" 标签或其他自定义标签
+
+      - name: Push Docker image （latest)
+        run: |
+          docker tag php74-fpm:latest ${{ secrets.DOCKER_USERNAME }}/php74-fpm:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/php74-fpm:latest
+      - name: Tag and Push Docker image with timestamp
+        run: |
+          TIMESTAMP_TAG="${{ secrets.DOCKER_USERNAME }}/php74-fpm:$(date +%Y%m%d)"
+          docker tag php74-fpm:latest $TIMESTAMP_TAG
+          docker push $TIMESTAMP_TAG
