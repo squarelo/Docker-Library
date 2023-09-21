@@ -1,4 +1,4 @@
-name: Build and Push phpfpm Image
+name: Build and Push php74-fpm Image
 
 on:
   push:
